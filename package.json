@@ -1,0 +1,16 @@
+{
+  "name": "python_proyets",
+  "version": "1.0.0",
+  "main": "binarySearch.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "chance": "^1.1.13",
+    "jest": "^29.7.0"
+  }
+}
