@@ -12,6 +12,14 @@ pipeline{
                 sh 'chmod -R 777 node_modules'
             }
         }
+
+    //Build
+        stage('Build'){
+            steps{
+                sh 'npm run build'
+                sh 'ls -la dist/'
+            }
+        }
     //Execute TESTS
         stage('Ejectuar tests'){
             steps{
