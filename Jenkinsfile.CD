@@ -1,25 +1,10 @@
-pipeline {
+pipeline{
     agent any
-    parameters {
-        string(name: 'ARTIFACT_VERSION', description: 'Versión del artefacto a desplegar')
-    }
-    stages {
-        stage('Deploy a Producción') {
+    stages{
+        stage('Deploy simulado'){
             steps {
-                script {
-                    // 1. Copiar archivos a EC2 B via SCP (ej: dist/ para Node.js)
-                    sh """
-                        scp -i /var/lib/jenkins/prodKeys.pem -r ./dist/ ubuntu@3.142.77.103:/var/www/mi-app/
-                    """
-
-                    // 2. Conectarse a EC2 B y reiniciar servicios (¡aquí estaba el error!)
-                    sh """
-                        ssh -i /var/lib/jenkins/prodKeys.pem ubuntu@3.142.77.103 << 'EOF'
-                            cd /var/www/mi-app
-                            pm2 restart all
-                        EOF
-                    """
-                }
+                echo "Deploy simulado a produccion!"
+                echo "Artifact: ${params.ARTIFACT_VERSION}"
             }
         }
     }

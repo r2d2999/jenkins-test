@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "binarySearch.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "buid": "echo 'Build similado CI/CD ' && exit 0"
   },
   "keywords": [],
   "author": "",

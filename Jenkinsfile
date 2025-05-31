@@ -32,12 +32,10 @@ pipeline{
                 branch 'main'
             }
             steps{
-                build job: 'CD-Deploy-Production',
-                    parameters: [
-                        string(name: 'ARTIFACT_VERSION', value: "${env.BUILD_ID}")
-                    ],
-                    wait: false
-                echo 'Pipeline CD disparado!'
+                steps{
+                    build job: 'CD-Deploy-Production', wait: false
+                    echo 'CI completado - CD Iniciadio!'
+                }
 
             }
         }
