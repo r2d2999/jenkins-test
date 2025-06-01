@@ -1,10 +1,32 @@
 pipeline{
     agent any
+    parameters {
+        string(name: 'ARTIFACT_VERSION', description: 'Verion del artefacto a deplesgar')
+    }
+    environment{
+        EC2_B_IP = '3.142.77.103'
+        SSH_USER = 'ubuntu'
+        DEPLOY_DIR = '/var/www/node-app'
+    }
     stages{
-        stage('Deploy simulado'){
-            steps {
-                echo "Deploy simulado a produccion!"
-                echo "Artifact: ${params.ARTIFACT_VERSION}"
+        stage('Deployb a produccion'){
+            steps{
+                script{
+                    //1 copiar archivos via SCP
+                    sh """
+                        scp -i /var/lib/jenkins/prodKeys.pem -r \
+                            *.js package.json package-lock.json ${SSH_USER}@${EC2_B_IP}:${DEPLOY_DIR}/
+                    """
+                    //2. conectarSE a ec2 b y desplegar
+                    sh """
+                        ssh -i /var/lib/jenkins/prodKeys.pem ${SSH_USER}@${EC2_B_IP} <<EOF
+                        cd ${DEPLOY_DIR}
+                        npm install --production
+                        pm2 restart ecosystem.config.js
+                    EOF
+                    """
+                }
+                echo "Despliegue exitoso en ${EC2_B_IP}"
             }
         }
     }
