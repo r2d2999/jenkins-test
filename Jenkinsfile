@@ -8,6 +8,7 @@ pipeline{
         stage('Instalar dependencias') {
             steps {
                 sh 'npm install'
+                sh 'npm uninstall -g jest || true'
                 sh 'npm install -g jest'
                 sh 'chmod -R 777 node_modules'
             }
@@ -42,4 +43,3 @@ pipeline{
 }
 
 
-//sdsdsdasdasdasdasdasdasdasdasdsadasd
