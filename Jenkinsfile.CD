@@ -9,25 +9,23 @@ pipeline{
         DEPLOY_DIR = '/var/www/node-app'
     }
     stages{
-        stage('Deployb a produccion'){
-            steps{
-                script{
-                    //1 copiar archivos via SCP
-                    sh """
-                        scp -i /var/lib/jenkins/prodKeys.pem -r \
-                            *.js package.json package-lock.json ${SSH_USER}@${EC2_B_IP}:${DEPLOY_DIR}/
-                    """
-                    //2. conectarSE a ec2 b y desplegar
-                    sh """
-                        ssh -i /var/lib/jenkins/prodKeys.pem ${SSH_USER}@${EC2_B_IP} <<EOF
-                        cd ${DEPLOY_DIR}
+      stage('Deploy a produccion') {
+        steps {
+            withCredentials([sshUserPrivateKey(
+                credentialsId: 'prod-ec2-key',  // ID que creaste
+                keyFileVariable: 'SSH_KEY',
+                usernameVariable: 'SSH_USER'
+            )]) {
+                sh """
+                    scp -i $SSH_KEY -r *.js *.json ubuntu@${env.EC2_B_IP}:/var/www/node-app/
+                    ssh -i $SSH_KEY ubuntu@${env.EC2_B_IP} "
+                        cd /var/www/node-app
                         npm install --production
                         pm2 restart ecosystem.config.js
-                    EOF
-                    """
-                }
-                echo "Despliegue exitoso en ${EC2_B_IP}"
+                    "
+                """
             }
         }
+}
     }
 }
