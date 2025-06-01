@@ -4,7 +4,7 @@ pipeline{
         string(name: 'ARTIFACT_VERSION', description: 'Verion del artefacto a deplesgar')
     }
     environment{
-        EC2_B_IP = '3.142.77.103'
+        EC2_B_IP = '3.134.231.42'
         SSH_USER = 'ubuntu'
         DEPLOY_DIR = '/var/www/node-app'
     }
